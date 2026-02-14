@@ -1,42 +1,109 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { LanguageProvider } from './contexts/LanguageContext';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Layout from './components/Layout';
-
+import SignupPage from './pages/SignupPage';
+import LoginPage from './pages/LoginPage';
+import OnboardingPage from './pages/OnboardingPage';
 import ProfilePage from './pages/ProfilePage';
-
 import SchemesPage from './pages/SchemesPage';
 import ApplicationsPage from './pages/ApplicationsPage';
+import { useNavigate } from 'react-router-dom';
+import { useLanguage } from './contexts/LanguageContext';
+import { ArrowRight, Shield, Volume2, FileCheck } from 'lucide-react';
 
-// Placeholder Pages
-const Home = () => (
-  <div className="text-center animate-fade-in">
-    <h1>Welcome to YojanaAI</h1>
-    <p>Your bridge to Government Schemes</p>
-    <div style={{ display: 'flex', justifyContent: 'center', gap: 'var(--spacing-md)', marginTop: 'var(--spacing-lg)' }}>
-      <button className="btn btn-primary">Get Started</button>
-      <button className="btn btn-secondary">Learn More</button>
+// Protected Route wrapper
+const ProtectedRoute = ({ children }) => {
+  const { isAuthenticated, loading } = useAuth();
+  if (loading) return <div className="text-center" style={{ padding: '60px' }}>Loading...</div>;
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  return children;
+};
+
+// Home Page
+const HomePage = () => {
+  const { isAuthenticated, user } = useAuth();
+  const { t } = useLanguage();
+  const navigate = useNavigate();
+
+  const handleGetStarted = () => {
+    if (isAuthenticated) {
+      navigate(user?.profile_completed ? '/schemes' : '/onboarding');
+    } else {
+      navigate('/signup');
+    }
+  };
+
+  return (
+    <div className="animate-fade-in" style={{ textAlign: 'center', padding: 'var(--spacing-xl) 0' }}>
+      {/* Hero */}
+      <div style={{ marginBottom: 'var(--spacing-xl)' }}>
+        <h1 style={{ fontSize: '2.5rem', marginBottom: 'var(--spacing-sm)', lineHeight: 1.3 }}>
+          {t('welcome')}
+        </h1>
+        <p style={{ fontSize: 'var(--font-size-lg)', maxWidth: '500px', margin: '0 auto' }}>
+          {t('subtitle')}
+        </p>
+      </div>
+
+      <button onClick={handleGetStarted} className="btn btn-primary" style={{ padding: '14px 36px', fontSize: 'var(--font-size-lg)' }}>
+        {t('getStarted')} <ArrowRight size={20} />
+      </button>
+
+      {/* Features */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 'var(--spacing-lg)', marginTop: '60px' }}>
+        <div className="card" style={{ textAlign: 'center' }}>
+          <Volume2 size={32} color="var(--primary)" style={{ marginBottom: '8px' }} />
+          <h3>Voice Guided</h3>
+          <p style={{ fontSize: '0.9rem' }}>Speak your details — no typing needed</p>
+        </div>
+        <div className="card" style={{ textAlign: 'center' }}>
+          <Shield size={32} color="var(--primary)" style={{ marginBottom: '8px' }} />
+          <h3>Smart Matching</h3>
+          <p style={{ fontSize: '0.9rem' }}>AI finds schemes you're eligible for</p>
+        </div>
+        <div className="card" style={{ textAlign: 'center' }}>
+          <FileCheck size={32} color="var(--primary)" style={{ marginBottom: '8px' }} />
+          <h3>Easy Apply</h3>
+          <p style={{ fontSize: '0.9rem' }}>Upload documents and apply in one place</p>
+        </div>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
-// const Profile = () => <div className="card animate-fade-in"><h2>My Profile</h2><p>Profile form coming soon...</p></div>;
-// const Schemes = () => <div className="card animate-fade-in"><h2>Build Schemes</h2><p>Scheme list coming soon...</p></div>;
-// const Applications = () => <div className="card animate-fade-in"><h2>My Applications</h2><p>Application status coming soon...</p></div>;
-
-import { LanguageProvider } from './contexts/LanguageContext';
+function AppRoutes() {
+  return (
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<HomePage />} />
+        <Route path="signup" element={<SignupPage />} />
+        <Route path="login" element={<LoginPage />} />
+        <Route path="onboarding" element={
+          <ProtectedRoute><OnboardingPage /></ProtectedRoute>
+        } />
+        <Route path="profile" element={
+          <ProtectedRoute><ProfilePage /></ProtectedRoute>
+        } />
+        <Route path="schemes" element={
+          <ProtectedRoute><SchemesPage /></ProtectedRoute>
+        } />
+        <Route path="applications" element={
+          <ProtectedRoute><ApplicationsPage /></ProtectedRoute>
+        } />
+      </Route>
+    </Routes>
+  );
+}
 
 function App() {
   return (
     <LanguageProvider>
       <Router>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="profile" element={<ProfilePage />} />
-            <Route path="schemes" element={<SchemesPage />} />
-            <Route path="applications" element={<ApplicationsPage />} />
-          </Route>
-        </Routes>
+        <AuthProvider>
+          <AppRoutes />
+        </AuthProvider>
       </Router>
     </LanguageProvider>
   );
