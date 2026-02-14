@@ -42,8 +42,8 @@ const SchemesPage = () => {
             return;
         }
 
-        // Voice feedback
-        speak(language === 'hi' ? `Applying to ${schemeName}` : `Applying to ${schemeName}`, language === 'hi' ? 'hi-IN' : 'en-US');
+        // Voice feedback removed
+        // speak(language === 'hi' ? `Applying to ${schemeName}` : `Applying to ${schemeName}`, language === 'hi' ? 'hi-IN' : 'en-US');
 
         try {
             await api.post(endpoints.apply, { user_id: userId, scheme_id: schemeId });

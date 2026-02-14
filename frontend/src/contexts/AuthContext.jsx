@@ -37,7 +37,11 @@ export const AuthProvider = ({ children }) => {
         const { access_token, user_id, profile_completed } = res.data;
         localStorage.setItem('token', access_token);
         localStorage.setItem('userId', user_id);
+        api.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
         setToken(access_token);
+        // Fetch user immediately so isAuthenticated becomes true before navigate
+        const meRes = await api.get('/auth/me');
+        setUser(meRes.data);
         return { user_id, profile_completed };
     };
 
@@ -46,7 +50,11 @@ export const AuthProvider = ({ children }) => {
         const { access_token, user_id, profile_completed } = res.data;
         localStorage.setItem('token', access_token);
         localStorage.setItem('userId', user_id);
+        api.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
         setToken(access_token);
+        // Fetch user immediately so isAuthenticated becomes true before navigate
+        const meRes = await api.get('/auth/me');
+        setUser(meRes.data);
         return { user_id, profile_completed };
     };
 

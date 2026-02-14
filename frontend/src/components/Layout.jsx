@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
-import { Home, User, FileText, CheckCircle, Languages, LogOut, LogIn } from 'lucide-react';
+import { Home, User, FileText, CheckCircle, Languages, LogOut, LogIn, Bot } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -36,6 +36,9 @@ const Layout = () => {
 
                         {isAuthenticated && (
                             <>
+                                <Link to="/agent" style={{ display: 'flex', alignItems: 'center', gap: '4px', textDecoration: 'none', color: 'var(--primary)', fontSize: '0.9rem', fontWeight: 600 }}>
+                                    <Bot size={18} /> {t('agent_nav')}
+                                </Link>
                                 <Link to="/schemes" style={{ display: 'flex', alignItems: 'center', gap: '4px', textDecoration: 'none', color: 'var(--text-main)', fontSize: '0.9rem' }}>
                                     <CheckCircle size={18} /> {t('schemes')}
                                 </Link>

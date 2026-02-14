@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
@@ -9,6 +9,7 @@ import OnboardingPage from './pages/OnboardingPage';
 import ProfilePage from './pages/ProfilePage';
 import SchemesPage from './pages/SchemesPage';
 import ApplicationsPage from './pages/ApplicationsPage';
+import AgentPage from './pages/AgentPage';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from './contexts/LanguageContext';
 import { ArrowRight, Shield, Volume2, FileCheck } from 'lucide-react';
@@ -23,18 +24,21 @@ const ProtectedRoute = ({ children }) => {
 
 // Home Page
 const HomePage = () => {
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, loading } = useAuth();
   const { t } = useLanguage();
   const navigate = useNavigate();
 
-  const handleGetStarted = () => {
-    if (isAuthenticated) {
-      navigate(user?.profile_completed ? '/schemes' : '/onboarding');
-    } else {
-      navigate('/signup');
+  // Redirect authenticated users directly
+  useEffect(() => {
+    if (!loading && isAuthenticated) {
+      navigate(user?.profile_completed ? '/agent' : '/onboarding', { replace: true });
     }
-  };
+  }, [loading, isAuthenticated, user]);
 
+  // Don't show landing page while checking auth
+  if (loading) return <div className="text-center" style={{ padding: '60px' }}>Loading...</div>;
+
+  // Only non-authenticated users see this
   return (
     <div className="animate-fade-in" style={{ textAlign: 'center', padding: 'var(--spacing-xl) 0' }}>
       {/* Hero */}
@@ -47,7 +51,7 @@ const HomePage = () => {
         </p>
       </div>
 
-      <button onClick={handleGetStarted} className="btn btn-primary" style={{ padding: '14px 36px', fontSize: 'var(--font-size-lg)' }}>
+      <button onClick={() => navigate('/signup')} className="btn btn-primary" style={{ padding: '14px 36px', fontSize: 'var(--font-size-lg)' }}>
         {t('getStarted')} <ArrowRight size={20} />
       </button>
 
@@ -91,6 +95,9 @@ function AppRoutes() {
         } />
         <Route path="applications" element={
           <ProtectedRoute><ApplicationsPage /></ProtectedRoute>
+        } />
+        <Route path="agent" element={
+          <ProtectedRoute><AgentPage /></ProtectedRoute>
         } />
       </Route>
     </Routes>

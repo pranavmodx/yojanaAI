@@ -70,6 +70,23 @@ export const translations = {
         occupation: "Occupation",
         state: "State",
         submit: "Save Profile",
+
+        // Agent
+        agent_nav: "AI Agent",
+        agent_title: "AI Agent",
+        agent_subtitle: "I'll analyze your profile and find eligible schemes for you",
+        agent_run: "Analyze My Profile",
+        agent_analyzing: "Analyzing your profile...",
+        agent_checking: "Checking eligibility for all schemes",
+        agent_retry: "Try Again",
+        agent_total: "Total Schemes",
+        agent_eligible: "Eligible",
+        agent_applied: "Applied",
+        agent_benefits: "Benefits",
+        agent_docs: "Documents needed",
+        agent_apply_btn: "Apply Now",
+        agent_applied_btn: "Applied ✓",
+        agent_run_again: "Run Again",
     },
     hi: {
         // General
@@ -138,6 +155,23 @@ export const translations = {
         occupation: "व्यवसाय",
         state: "राज्य",
         submit: "प्रोफाइल सहेजें",
+
+        // Agent
+        agent_nav: "AI एजेंट",
+        agent_title: "AI एजेंट",
+        agent_subtitle: "मैं आपकी प्रोफ़ाइल का विश्लेषण करके पात्र योजनाएं खोजूँगा",
+        agent_run: "प्रोफ़ाइल विश्लेषण करें",
+        agent_analyzing: "प्रोफ़ाइल का विश्लेषण हो रहा है...",
+        agent_checking: "सभी योजनाओं की पात्रता जाँच रहा हूँ",
+        agent_retry: "फिर से कोशिश करें",
+        agent_total: "कुल योजनाएं",
+        agent_eligible: "पात्र",
+        agent_applied: "आवेदित",
+        agent_benefits: "लाभ",
+        agent_docs: "आवश्यक दस्तावेज़",
+        agent_apply_btn: "अभी आवेदन करें",
+        agent_applied_btn: "आवेदित ✓",
+        agent_run_again: "दोबारा चलाएं",
     }
 };
 
