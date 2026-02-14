@@ -36,14 +36,8 @@ const Layout = () => {
 
                         {isAuthenticated && (
                             <>
-                                <Link to="/agent" style={{ display: 'flex', alignItems: 'center', gap: '4px', textDecoration: 'none', color: 'var(--primary)', fontSize: '0.9rem', fontWeight: 600 }}>
-                                    <Bot size={18} /> {t('agent_nav')}
-                                </Link>
                                 <Link to="/schemes" style={{ display: 'flex', alignItems: 'center', gap: '4px', textDecoration: 'none', color: 'var(--text-main)', fontSize: '0.9rem' }}>
                                     <CheckCircle size={18} /> {t('schemes')}
-                                </Link>
-                                <Link to="/applications" style={{ display: 'flex', alignItems: 'center', gap: '4px', textDecoration: 'none', color: 'var(--text-main)', fontSize: '0.9rem' }}>
-                                    <FileText size={18} /> {t('applications')}
                                 </Link>
                                 <Link to="/profile" style={{ display: 'flex', alignItems: 'center', gap: '4px', textDecoration: 'none', color: 'var(--text-main)', fontSize: '0.9rem' }}>
                                     <User size={18} /> {user?.name || t('profile')}

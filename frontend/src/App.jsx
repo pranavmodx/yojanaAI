@@ -8,7 +8,6 @@ import LoginPage from './pages/LoginPage';
 import OnboardingPage from './pages/OnboardingPage';
 import ProfilePage from './pages/ProfilePage';
 import SchemesPage from './pages/SchemesPage';
-import ApplicationsPage from './pages/ApplicationsPage';
 import AgentPage from './pages/AgentPage';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from './contexts/LanguageContext';
@@ -93,9 +92,7 @@ function AppRoutes() {
         <Route path="schemes" element={
           <ProtectedRoute><SchemesPage /></ProtectedRoute>
         } />
-        <Route path="applications" element={
-          <ProtectedRoute><ApplicationsPage /></ProtectedRoute>
-        } />
+        {/* Agent route kept accessible if revisited, but nav link removed */}
         <Route path="agent" element={
           <ProtectedRoute><AgentPage /></ProtectedRoute>
         } />
