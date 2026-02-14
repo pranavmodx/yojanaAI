@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import './i18n'; // Initialize i18next
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
@@ -58,18 +59,18 @@ const HomePage = () => {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 'var(--spacing-lg)', marginTop: '60px' }}>
         <div className="card" style={{ textAlign: 'center' }}>
           <Volume2 size={32} color="var(--primary)" style={{ marginBottom: '8px' }} />
-          <h3>Voice Guided</h3>
-          <p style={{ fontSize: '0.9rem' }}>Speak your details — no typing needed</p>
+          <h3>{t('voiceGuided')}</h3>
+          <p style={{ fontSize: '0.9rem' }}>{t('voiceGuidedDesc')}</p>
         </div>
         <div className="card" style={{ textAlign: 'center' }}>
           <Shield size={32} color="var(--primary)" style={{ marginBottom: '8px' }} />
-          <h3>Smart Matching</h3>
-          <p style={{ fontSize: '0.9rem' }}>AI finds schemes you're eligible for</p>
+          <h3>{t('smartMatching')}</h3>
+          <p style={{ fontSize: '0.9rem' }}>{t('smartMatchingDesc')}</p>
         </div>
         <div className="card" style={{ textAlign: 'center' }}>
           <FileCheck size={32} color="var(--primary)" style={{ marginBottom: '8px' }} />
-          <h3>Easy Apply</h3>
-          <p style={{ fontSize: '0.9rem' }}>Upload documents and apply in one place</p>
+          <h3>{t('easyApply')}</h3>
+          <p style={{ fontSize: '0.9rem' }}>{t('easyApplyDesc')}</p>
         </div>
       </div>
     </div>
