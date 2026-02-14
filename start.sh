@@ -1,6 +1,16 @@
 #!/bin/bash
 echo "Starting YojanaAI..."
 
+# Function to kill processes on exit
+cleanup() {
+    echo "Stopping YojanaAI..."
+    kill $BACKEND_PID $FRONTEND_PID 2>/dev/null
+    exit
+}
+
+# Trap SIGINT (Ctrl+C) and SIGTERM
+trap cleanup SIGINT SIGTERM
+
 # Start Backend
 echo "Starting Backend..."
 cd backend
